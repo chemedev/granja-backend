@@ -41,5 +41,16 @@ def products():
     return jsonify(response)
 
 
+@app.route('/products/<string:id>')
+def getProductById(id):
+    sql = f'select * from products where id = {id} and is_deleted = 0;'
+    response = {"error": False, "data": None}
+    try:
+        cursor.execute(sql)
+        response['data'] = cursor.fetchall()
+    except:
+        response['error'] = True
+    return jsonify(response)
+
 if __name__ == '__main__':
     app.run(debug=True)
